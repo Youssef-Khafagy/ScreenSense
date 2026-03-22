@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+
+# ML artifacts
+data/
+*.pth
+*.onnx
+ml/runs/
+ml/checkpoints/
+ml/results/
+
+# Node
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+
+# Env files
+.env
+.env.local
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Docker
+*.log

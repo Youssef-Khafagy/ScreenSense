@@ -1,10 +1,10 @@
-# ScreenSense — AI Visual Attention Predictor
+# ScreenSense · AI Visual Attention Predictor
 
 > See what your users see before they do.
 
 ScreenSense is a full-stack AI application that predicts visual attention in images.
 Upload any screenshot, advertisement, or UI design and get an instant heatmap showing
-where human eyes will look first, second, and third — powered by a custom-trained CNN.
+where human eyes will look first, second, and third, powered by a custom-trained CNN.
 
 ---
 
@@ -40,7 +40,7 @@ Each block: Upsample → Concat(skip) → Conv → BN → ReLU → Conv → BN �
 
 ### Training Data
 
-**SALICON dataset** — 10,000 training + 5,000 validation natural images from MS COCO 2014,
+**SALICON dataset:** 10,000 training + 5,000 validation natural images from MS COCO 2014,
 annotated with crowd-sourced human fixation maps. Participants indicated where their
 attention went on each image via mouse tracking; these are used as ground truth saliency maps.
 
@@ -66,8 +66,8 @@ SALICON Google Drive distribution via `gdown`.
 | Total training time      | ~113 minutes                      |
 | Best validation loss     | 0.3256                            |
 
-Early stopping triggered at epoch 13 — validation loss had not improved for 5 consecutive
-epochs. Best checkpoint was from epoch 8.
+Early stopping triggered at epoch 13 (validation loss had not improved for 5 consecutive
+epochs). Best checkpoint was from epoch 8.
 
 ### Evaluation Results
 
@@ -78,7 +78,7 @@ Evaluated on the full SALICON validation set (5,000 images):
 | AUC-Judd | **0.9613** | ↑ higher  | Can the model rank fixated pixels above non-fixated ones? |
 | CC       | **0.8756** | ↑ higher  | Pearson correlation between predicted and ground truth heatmap |
 | NSS      | **2.163**  | ↑ higher  | Predicted saliency 2.16 std above average at fixation points |
-| SIM      | **0.7649** | ↑ higher  | Histogram intersection — 76% overlap with ground truth distribution |
+| SIM      | **0.7649** | ↑ higher  | Histogram intersection: 76% overlap with ground truth distribution |
 | KL-Div   | **0.2383** | ↓ lower   | Distribution divergence from ground truth (0 = perfect)  |
 
 Published SALICON baseline (typical MobileNet-scale model): AUC ~0.87, CC ~0.74.
@@ -166,7 +166,7 @@ npm run dev              # http://localhost:3000
 - Fine-tune on UI-specific data (web screenshots, app interfaces)
 - Larger backbone (EfficientNet, ResNet50) for higher accuracy
 - Video saliency support (optical flow + temporal attention)
-- Gaze replay animation — show predicted scanpath, not just the static map
+- Gaze replay animation: show predicted scanpath, not just the static map
 - Browser extension for real-time webpage analysis
 
 ---
@@ -191,5 +191,5 @@ screensense/
 ├── frontend/            # Next.js application
 │   ├── app/             # Pages (landing, results)
 │   └── components/      # UI components (ImageViewer, AttentionPanel, etc.)
-└── data/                # Dataset — gitignored (~20 GB)
+└── data/                # Dataset (gitignored, ~20 GB)
 ```

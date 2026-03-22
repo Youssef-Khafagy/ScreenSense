@@ -1,4 +1,4 @@
-# ScreenSense — ML Training Pipeline
+# ScreenSense · ML Training Pipeline
 
 End-to-end saliency prediction pipeline trained on the SALICON dataset.
 The model takes an RGB image and outputs a single-channel saliency map
@@ -9,18 +9,18 @@ predicting where human eyes will look.
 ## Dataset Setup
 
 SALICON uses images from MS COCO 2014 with crowd-sourced fixation maps as ground truth.
-The `salicon.net/download` page is no longer active — use the scripts below instead.
+The `salicon.net/download` page is no longer active. Use the scripts below instead.
 
-### Step 1 — COCO images (~20 GB)
+### Step 1: COCO images (~20 GB)
 
 ```bash
 python download_data.py --coco-only
 ```
 
 Downloads MS COCO 2014 train (82K images) and val (40K images).
-SALICON only uses 10K train + 5K val of these — the rest are ignored at training time.
+SALICON only uses 10K train + 5K val of these; the rest are ignored at training time.
 
-### Step 2 — SALICON saliency maps (~431 MB)
+### Step 2: SALICON saliency maps (~431 MB)
 
 ```bash
 pip install gdown
@@ -36,7 +36,7 @@ If that fails, try Kaggle: `python download_data.py --kaggle`
 python download_data.py --verify
 ```
 
-Expected output: 10,000 train maps, 5,000 val maps — all checks passed.
+Expected output: 10,000 train maps, 5,000 val maps. All checks passed.
 
 ---
 
@@ -50,13 +50,13 @@ All hyperparameters live in `config.py`.
 | `BATCH_SIZE`              | 8       | Safe for 4 GB VRAM                         |
 | `LEARNING_RATE_ENCODER`   | 1e-5    | Lower LR for pretrained backbone           |
 | `LEARNING_RATE_DECODER`   | 1e-4    | Higher LR for freshly-initialised decoder  |
-| `EPOCHS`                  | 25      | Max — early stopping usually fires earlier |
+| `EPOCHS`                  | 25      | Max (early stopping usually fires earlier) |
 | `FREEZE_ENCODER_EPOCHS`   | 5       | Decoder-only training for first 5 epochs   |
 | `EARLY_STOPPING_PATIENCE` | 5       | Stop if val loss doesn't improve for 5     |
 | `KL_WEIGHT`               | 1.0     | Primary loss component                     |
 | `CC_WEIGHT`               | 0.5     | Correlation coefficient loss weight        |
 | `BCE_WEIGHT`              | 0.1     | Binary cross-entropy weight                |
-| `USE_AMP`                 | True    | Mixed precision — halves VRAM usage        |
+| `USE_AMP`                 | True    | Mixed precision (halves VRAM usage)        |
 
 ---
 
@@ -79,7 +79,7 @@ Input (B, 3, 192, 256)
     ├── DecBlock(64+16    → 32)   (96×128)
     ├── Upsample + Conv(32 → 16)  (192×256)
     └── Conv(16 → 1) + Sigmoid
-         └── Output: (B, 1, 192, 256) — saliency map in [0, 1]
+         └── Output: (B, 1, 192, 256)  saliency map in [0, 1]
 ```
 
 Total parameters: 6,626,481
@@ -99,7 +99,7 @@ Trained on an NVIDIA GTX 1650 (4 GB VRAM) with mixed precision (AMP).
 
 - Encoder frozen for epochs 1–5, decoder trained alone
 - Encoder unfrozen at epoch 6 with lower LR (1e-5)
-- Early stopping triggered at epoch 13 — val loss had not improved for 5 epochs
+- Early stopping triggered at epoch 13 (val loss had not improved for 5 epochs)
 - Best checkpoint: epoch 8, val loss 0.3256
 - Total training time: ~113 minutes
 
@@ -121,10 +121,10 @@ Runs all 5 standard saliency metrics on the full 5,000-image validation set.
 
 | Metric   | Score      | Direction | What it measures                                             |
 |----------|------------|-----------|--------------------------------------------------------------|
-| AUC-Judd | **0.9613** | ↑ higher  | ROC AUC — ranks fixated pixels above non-fixated ones        |
+| AUC-Judd | **0.9613** | ↑ higher  | ROC AUC: ranks fixated pixels above non-fixated ones         |
 | CC       | **0.8756** | ↑ higher  | Pearson correlation between predicted and ground truth map   |
 | NSS      | **2.163**  | ↑ higher  | Predicted saliency 2.16 std above average at fixation points |
-| SIM      | **0.7649** | ↑ higher  | Histogram intersection — 76% overlap with ground truth       |
+| SIM      | **0.7649** | ↑ higher  | Histogram intersection: 76% overlap with ground truth        |
 | KL-Div   | **0.2383** | ↓ lower   | Distribution divergence from ground truth                    |
 
 Published SALICON baseline (typical MobileNet-scale model): AUC ~0.87, CC ~0.74.
@@ -140,7 +140,7 @@ Loss = 1.0 × KL-Divergence(GT ∥ Pred)
      + 0.1 × BCE(Pred, GT_normalised)
 ```
 
-KL divergence is the standard primary metric in saliency research — it measures
+KL divergence is the standard primary metric in saliency research. It measures
 how well the predicted distribution matches the ground truth. CC captures linear
 correlation. BCE provides a pixel-wise anchor to prevent map collapse.
 

@@ -11,15 +11,28 @@ import torchvision.transforms as T
 import torchvision.transforms.functional as TF
 from PIL import Image
 
+from huggingface_hub import hf_hub_download
 from .network import ScreenSenseNet
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
-IMAGE_SIZE   = (256, 192)    # (W, H)  — must match training config
+IMAGE_SIZE    = (256, 192)    # (W, H)  — must match training config
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD  = (0.229, 0.224, 0.225)
-MODEL_PATH   = Path(__file__).parent / "best_model.pth"
+MODEL_PATH    = Path(__file__).parent / "best_model.pth"
 MAX_LONG_SIDE = 1920
+HF_REPO_ID    = "Youssef-Khafagy/screensense-saliency"
+HF_FILENAME   = "best_model.pth"
+
+
+def _ensure_model_downloaded():
+    if MODEL_PATH.exists():
+        return
+    print("Model weights not found locally — downloading from HuggingFace Hub...")
+    downloaded = hf_hub_download(repo_id=HF_REPO_ID, filename=HF_FILENAME)
+    import shutil
+    shutil.copy(downloaded, MODEL_PATH)
+    print(f"Model saved to {MODEL_PATH}")
 
 
 # ── Model singleton ───────────────────────────────────────────────────────────
@@ -40,11 +53,7 @@ def load_model() -> ScreenSenseNet:
     _device = _get_device()
     _model  = ScreenSenseNet().to(_device)
 
-    if not MODEL_PATH.exists():
-        raise FileNotFoundError(
-            f"Model weights not found at {MODEL_PATH}. "
-            "Train the model first (see ml/README.md) and copy best_model.pth here."
-        )
+    _ensure_model_downloaded()
 
     ckpt = torch.load(str(MODEL_PATH), map_location=_device)
     _model.load_state_dict(ckpt["model_state"])

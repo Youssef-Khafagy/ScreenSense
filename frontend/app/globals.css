@@ -6,7 +6,7 @@
 * { box-sizing: border-box; }
 
 body {
-  background-color: #09090b;
+  background-color: #0f0f12;
   color: #fafafa;
   font-family: var(--font-inter), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -83,6 +83,10 @@ input[type="range"]::-webkit-slider-thumb:hover {
   border-color: #6366f1 !important;
   background: rgba(99,102,241,0.05) !important;
 }
+
+/* ── Lift zinc-950 slightly off pure black ──────────────────────────────────── */
+.bg-zinc-950 { background-color: #0f0f12 !important; }
+.bg-zinc-950\/80 { background-color: rgba(15,15,18,0.8) !important; }
 
 /* ── Heatmap canvas ─────────────────────────────────────────────────────────── */
 .heatmap-canvas { transition: opacity 0.5s ease; }

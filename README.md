@@ -2,6 +2,8 @@
 
 > See what your users see before they do.
 
+**Live demo:** https://screen-sense-gamma.vercel.app
+
 ScreenSense is a full-stack AI application that predicts visual attention in images.
 Upload any screenshot, advertisement, or UI design and get an instant heatmap showing
 where human eyes will look first, second, and third, powered by a custom-trained CNN.

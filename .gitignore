@@ -41,3 +41,6 @@ Thumbs.db
 
 # Docker
 *.log
+
+# HuggingFace Space (separate repo)
+hf-space/

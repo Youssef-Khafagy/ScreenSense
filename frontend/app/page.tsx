@@ -67,20 +67,6 @@ export default function LandingPage() {
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-4">
         <Hero />
 
-        {/* Backend wake-up status */}
-        {wakeStatus === "waking" && (
-          <div className="mb-3 flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-amber-500/20 bg-amber-500/5 text-xs text-amber-400/80">
-            <div className="w-3 h-3 rounded-full border border-amber-400/60 border-t-transparent animate-spin flex-shrink-0" />
-            <span>Backend is waking up on HuggingFace Spaces — first request may take up to 30 seconds. Hang tight.</span>
-          </div>
-        )}
-        {wakeStatus === "ready" && (
-          <div className="mb-3 flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-xs text-emerald-400/80">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0" />
-            <span>Backend is ready.</span>
-          </div>
-        )}
-
         {/* Upload area */}
         <div className="mb-4">
           {isLoading ? (
@@ -93,7 +79,11 @@ export default function LandingPage() {
                 <p className="font-medium text-white">
                   {state.status === "uploading" ? "Uploading image..." : "Analysing attention patterns..."}
                 </p>
-                <p className="text-sm text-zinc-500 mt-1">Usually takes 1-2 seconds</p>
+                <p className="text-sm text-zinc-500 mt-1">
+                  {wakeStatus !== "ready"
+                    ? "First request may take up to 30s while the backend wakes up"
+                    : "Usually takes 1-2 seconds"}
+                </p>
               </div>
             </div>
           ) : (
